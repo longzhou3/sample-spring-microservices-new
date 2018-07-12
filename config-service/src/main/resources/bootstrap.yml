@@ -1,2 +1,18 @@
 server:
   port: 8088
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+  profiles:
+     active: native
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8061/eureka/

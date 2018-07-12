@@ -16,6 +16,7 @@
 		<module>proxy-service</module>
 		<module>zipkin-service</module>
 		<module>hystrix-dashboard-service</module>
+		<module>admin-service</module>
 
 	</modules>
 	

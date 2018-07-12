@@ -19,10 +19,17 @@ spring:
       routes:
       - id: employee-service
         uri: lb://employee-service
+        order: 10000
         predicates:
         - Path=/employee/**
         filters:
         - RewritePath=/employee/(?<path>.*), /$\{path}
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 1  # 令牌桶的容积
+            redis-rate-limiter.burstCapacity: 3  # 流速 每秒
+            key-resolver: "#{@remoteAddrKeyResolver}" #SPEL表达式去的对应的bean
+        - StripPrefix=1
       - id: department-service
         uri: lb://department-service
         predicates:
@@ -44,3 +51,11 @@ spring:
   zipkin:
     base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

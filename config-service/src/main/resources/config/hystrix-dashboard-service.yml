@@ -1,0 +1,26 @@
+server:
+  port: 8050
+
+management:
+  endpoints:
+    web:
+      base-path: /    #修改访问路径  2.0之前默认是/   2.0默认是 /actuator  可以通过这个属性值修改
+      exposure:
+        include: '*'  #开放所有页面节点  默认只开启了health、info两个节点
+
+turbine:
+  # 配置 Eureka 中的 serviceId 列表，指定要监控的服务
+  app-config: organization-service,department-service,employee-service
+  aggregator:
+    cluster-config: default
+  # 指定集群名称
+  cluster-name-expression: new String("default")
+  combine-host-port: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8061/eureka/
+
+
+
